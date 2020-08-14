@@ -92,6 +92,7 @@ Name                | Type     | Default      | Description
 `limitBounds`       | boolean  | false        | Set this to `true` to keep the edge of the image within the magnifying lens.
 `mobileCloseEvent`  | string   | 'touchstart' | Custom event to fire when you tap on the mobile close button. Set this to `'click'` or `'touchend'` if it's conflicting with another event handler. This option is only applicable when the mobile plugin (jquery.magnify-mobile.js) is used.
 `afterLoad`         | function |              | Anonymous callback function to execute after magnification is loaded.
+`magnifyOnTouch`    | boolean  | true        | Set this to `false` to disable magnification on touch events. This will also prevent the default `touchend` behavior on these elements so use carefully!
 
 Options can also be set directly in the `<img>` tag by adding the following data attributes, which will take precedence over the corresponding options set inside an object:
 
@@ -106,6 +107,7 @@ Options can also be set directly in the `<img>` tag by adding the following data
 - `data-magnify-limitbounds` - equivalent to `limitBounds`
 - `data-magnify-mobilecloseevent` - equivalent to `mobileCloseEvent`
 - `data-magnify-afterload` - equivalent to `afterLoad`, except the value must be a declared function name
+- `data-magnify-magnifyontouch` - equivalent to `magnifyOnTouch`
 
 ## Methods
 

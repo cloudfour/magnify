@@ -20,7 +20,8 @@
       'magnifiedHeight': null,
       'limitBounds': false,
       'mobileCloseEvent': 'touchstart',
-      'afterLoad': function(){}
+      'afterLoad': function(){},
+      'magnifyOnTouch': true
     }, oOptions);
 
     var $that = this, // Preserve scope
@@ -40,6 +41,21 @@
         // Disable zooming if no valid large image source
         var sZoomSrc = oDataAttr['src'] || oOptions['src'] || $anchor.attr('href') || '';
         if (!sZoomSrc) return;
+
+        $magnifyOnTouch = oOptions['magnifyOnTouch'];
+        if(typeof oDataAttr['magnifyOnTouch'] !== 'undefined') {
+          $magnifyOnTouch = oDataAttr['magnifyOnTouch'];
+        }
+
+        // Touch events will often trigger mouse events
+        // If we don't want to magnify on touch, we need to prevent these mouse events
+        // We can do so by preventing the default behavior of `touchend`.
+        // @see https://makandracards.com/makandra/51956-event-order-when-clicking-on-touch-devices
+        if (!$magnifyOnTouch) {
+          $image.on('touchend', function(e) {
+            e.preventDefault();
+          });
+        }
 
         var $container,
           $lens,
@@ -228,9 +244,16 @@
             // Simulate a lens move to update positioning if magnifiedWidth/magnifiedHeight is
             // updated while the lens is visible
             if ($lens.is(':visible')) moveLens();
+
+            // Determine whether to move the lens on touch events
+            var moveLensTriggers = 'mousemove';
+            if($magnifyOnTouch) {
+              moveLensTriggers += ' touchmove';
+            }
+            
             // Handle mouse movements
             $container.off().on({
-              'mousemove touchmove': moveLens,
+              moveLensTriggers: moveLens,
               'mouseenter': function() {
                 // Need to update offsets here to support accordions
                 oContainerOffset = getOffset();
