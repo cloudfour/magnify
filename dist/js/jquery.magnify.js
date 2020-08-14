@@ -42,7 +42,7 @@
         var sZoomSrc = oDataAttr['src'] || oOptions['src'] || $anchor.attr('href') || '';
         if (!sZoomSrc) return;
 
-        $magnifyOnTouch = oOptions['magnifyOnTouch'];
+        var $magnifyOnTouch = oOptions['magnifyOnTouch'];
         if(typeof oDataAttr['magnifyOnTouch'] !== 'undefined') {
           $magnifyOnTouch = oDataAttr['magnifyOnTouch'];
         }
